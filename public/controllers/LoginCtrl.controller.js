@@ -41,7 +41,7 @@ angular.module('meannote')
                         $cookies.put('currentUser', user);
                         $rootScope.currentUser = user;
                         $rootScope.token = accessToken;
-                        $window.location.href = '/home';
+                        $window.location.href = '/#/home';
                     });
                 }else{
                     $location.path('/')
