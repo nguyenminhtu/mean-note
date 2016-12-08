@@ -34,7 +34,9 @@ angular.module('meannote')
         $scope.FBLogin = function() {
             FB.login(function(response) {
                 if(response.authResponse) {
-                    $window.location.href = '#/home';
+                    FB.api('/me', function (response) {
+                        console.log(response);
+                    });
                 }else{
                     $location.path('#/')
                 }
