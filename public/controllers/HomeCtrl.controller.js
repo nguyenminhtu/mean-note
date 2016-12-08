@@ -2,7 +2,7 @@ angular.module('meannote')
 
     .controller('HomeCtrl', ['$scope', '$http', '$location', '$rootScope', '$cookies', 'toastr', function($scope, $http, $location, $rootScope, $cookies, toastr) {
 
-        if (!$rootScope.currentUser || !$rootScope.token) {
+        if (!$cookies.get('token') || !$cookies.get('currentUser')) {
             $location.path('/');
         }
 
