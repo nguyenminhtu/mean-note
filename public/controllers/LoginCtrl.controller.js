@@ -38,7 +38,7 @@ angular.module('meannote')
                         var user = response.name;
 
                         $http.get('/api/users/check/' + user).success(function(data) {
-                            if (data = 'match') {
+                            if (data === 'match') {
                                 $http.post('/api/users/login', { username: user, password: '123456' }).success(function(data) {
                                     $cookies.put('token', data.token);
                                     $cookies.put('currentUser', user);
@@ -46,7 +46,7 @@ angular.module('meannote')
                                     $rootScope.currentUser = user;
                                     $location.path('/home');
                                 });
-                            } else {
+                            } else if (data === 'notMatch') {
                                 var newUser = {
                                     username: user,
                                     password: '123456'
