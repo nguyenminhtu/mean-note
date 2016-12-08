@@ -36,7 +36,7 @@ angular.module('meannote')
                 if(response.authResponse) {
                     $location.path('/home');
                 }else{
-                    $location.path('/ngsocial')
+                    $location.path('/')
                 }
             });
         }
