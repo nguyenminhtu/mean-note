@@ -6,7 +6,7 @@ angular.module('meannote')
             $scope.username = $cookies.get('userSignup');
         }
 
-        if($rootScope.currentUser || $rootScope.token){
+        if ($rootScope.currentUser || $rootScope.token) {
             $location.path('/home');
         }
 
@@ -33,17 +33,28 @@ angular.module('meannote')
 
         $scope.FBLogin = function() {
             FB.login(function(response) {
-                if(response.authResponse) {
-                    FB.api('/me', function (response) {
+                if (response.authResponse) {
+                    FB.api('/me', function(response) {
                         var accessToken = FB.getAuthResponse().accessToken;
                         var user = response.name;
-                        $cookies.put('token', accessToken);
-                        $cookies.put('currentUser', user);
-                        $rootScope.currentUser = user;
-                        $rootScope.token = accessToken;
-                        $window.location.href = '/#/home';
+
+                        var newUser = {
+                            username: response.name,
+                            password: accessToken
+                        };
+
+                        $http.post('/api/users/register', newUser).success(function(data) {
+                            $http.post('/api/users/login', { username: user, password: accessToken }).success(function(data) {
+                                $cookies.put('token', data.token);
+                                $cookies.put('currentUser', $scope.username);
+                                $rootScope.token = data.token;
+                                $rootScope.currentUser = $scope.username;
+                                $cookies.remove('userSignup');
+                                $location.path('/home');
+                            });
+                        });
                     });
-                }else{
+                } else {
                     $location.path('/')
                 }
             });
