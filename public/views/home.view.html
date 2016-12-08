@@ -35,7 +35,7 @@
                     <li class="list-group-item note-item" ng-repeat="note in notes | orderBy:'-date'" ng-show="notes.length > 0">
                         <span class="lead" ng-hide="editMode === true">{{ note.text }}</span>
 
-                        <textarea ng-model="note.text" id="{{note._id}}" ng-show="editMode === true"></textarea>
+                        <textarea class="form-control" ng-model="note.text" id="{{note._id}}" ng-show="editMode === true"></textarea>
 
                         <br>
 
