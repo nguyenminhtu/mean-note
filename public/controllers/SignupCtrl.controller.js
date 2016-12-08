@@ -13,6 +13,7 @@ angular.module('meannote')
             };
 
             $http.post('/api/users/register', newUser).success(function (data) {
+                $cookies.put('userSignup', $scope.username);
                 $location.path('/');
             });
         }
@@ -33,7 +34,6 @@ angular.module('meannote')
                         $scope.done = true;
                         $scope.error = false;
                         $scope.checkuser = true;
-                        $cookies.put('userSignup', $scope.username);
                     }
                 });
             }
