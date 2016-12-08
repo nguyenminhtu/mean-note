@@ -1,6 +1,6 @@
 angular.module('meannote')
 
-    .controller('LoginCtrl', ['$scope', '$http', '$location', '$rootScope', '$cookies', 'toastr', function($scope, $http, $location, $rootScope, $cookies, toastr) {
+    .controller('LoginCtrl', ['$scope', '$http', '$location', '$rootScope', '$cookies', 'toastr', '$window', function($scope, $http, $location, $rootScope, $cookies, toastr, $window) {
 
         if ($cookies.get('userSignup')) {
             $scope.username = $cookies.get('userSignup');
@@ -34,7 +34,7 @@ angular.module('meannote')
         $scope.FBLogin = function() {
             FB.login(function(response) {
                 if(response.authResponse) {
-                    $location.path('/home');
+                    $window.location.href = '/home';
                 }else{
                     $location.path('/')
                 }
