@@ -35,11 +35,12 @@ angular.module('meannote')
             FB.login(function(response) {
                 if (response.authResponse) {
                     FB.api('/me', function(response) {
+                        var accessToken = FB.getAuthResponse().accessToken;
                         var user = response.name;
 
                         $http.get('/api/users/check/' + user).success(function(data) {
                             if (data === 'match') {
-                                $http.post('/api/users/login', { username: user, password: '123456' }).success(function(data) {
+                                $http.post('/api/users/login', { username: user, password: accessToken }).success(function(data) {
                                     $cookies.put('token', data.token);
                                     $cookies.put('currentUser', user);
                                     $rootScope.token = data.token;
@@ -49,11 +50,11 @@ angular.module('meannote')
                             } else if (data === 'notMatch') {
                                 var newUser = {
                                     username: user,
-                                    password: '123456'
+                                    password: accessToken
                                 };
 
                                 $http.post('/api/users/register', newUser).success(function(data) {
-                                    $http.post('/api/users/login', { username: user, password: '123456' }).success(function(data) {
+                                    $http.post('/api/users/login', { username: user, password: accessToken }).success(function(data) {
                                         $cookies.put('token', data.token);
                                         $cookies.put('currentUser', user);
                                         $rootScope.token = data.token;
