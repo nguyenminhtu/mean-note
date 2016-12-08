@@ -35,9 +35,13 @@ angular.module('meannote')
             FB.login(function(response) {
                 if(response.authResponse) {
                     FB.api('/me', function (response) {
-                        console.log(response);
-                        var accessToken = FB.getAuthResponse();
-                        console.log(accessToken);
+                        var accessToken = FB.getAuthResponse().accessToken();
+                        var user = response.name;
+                        $cookies.put('token', accessToken);
+                        $cookies.put('currentUser', user);
+                        $rootScope.currentUser = user;
+                        $rootScope.token = accessToken;
+                        $location.path('/home');
                     });
                 }else{
                     $location.path('#/')
