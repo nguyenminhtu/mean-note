@@ -61,8 +61,10 @@ angular.module('meannote')
         getNote();
 
         $scope.logout = function() {
-            $cookies.remove('token');
-            $cookies.remove('currentUser');
+            var cookies = $cookies.getAll();
+            angular.forEach(cookies, function(v, k) {
+                $cookies.remove(k);
+            });
             $rootScope.token = null;
             $rootScope.currentUser = null;
             $location.path('/');
