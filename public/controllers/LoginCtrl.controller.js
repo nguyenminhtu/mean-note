@@ -36,6 +36,8 @@ angular.module('meannote')
                 if(response.authResponse) {
                     FB.api('/me', function (response) {
                         console.log(response);
+                        var accessToken = FB.getAuthResponse();
+                        console.log(accessToken);
                     });
                 }else{
                     $location.path('#/')
