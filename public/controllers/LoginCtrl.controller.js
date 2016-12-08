@@ -39,17 +39,16 @@ angular.module('meannote')
                         var user = response.name;
 
                         var newUser = {
-                            username: response.name,
-                            password: accessToken
+                            username: user,
+                            password: '123456'
                         };
 
                         $http.post('/api/users/register', newUser).success(function(data) {
-                            $http.post('/api/users/login', { username: user, password: accessToken }).success(function(data) {
+                            $http.post('/api/users/login', { username: user, password: '123456' }).success(function(data) {
                                 $cookies.put('token', data.token);
                                 $cookies.put('currentUser', $scope.username);
                                 $rootScope.token = data.token;
                                 $rootScope.currentUser = $scope.username;
-                                $cookies.remove('userSignup');
                                 $location.path('/home');
                             });
                         });
