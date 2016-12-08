@@ -1,13 +1,17 @@
 angular.module('meannote')
 
-    .controller('LoginCtrl', ['$scope', '$http', '$location', '$rootScope', '$cookies', 'toastr', function ($scope, $http, $location, $rootScope, $cookies, toastr) {
+    .controller('LoginCtrl', ['$scope', '$http', '$location', '$rootScope', '$cookies', 'toastr', function($scope, $http, $location, $rootScope, $cookies, toastr) {
 
-        if($cookies.get('userSignup')){
+        if ($cookies.get('userSignup')) {
             $scope.username = $cookies.get('userSignup');
         }
 
-        $scope.login = function () {
-            $http.post('/api/users/login', { username: $scope.username, password: $scope.password }).success(function (data) {
+        if($rootScope.currentUser || $rootScope.token){
+            $location.path('/home');
+        }
+
+        $scope.login = function() {
+            $http.post('/api/users/login', { username: $scope.username, password: $scope.password }).success(function(data) {
                 if (data === 'No User Found') {
                     toastr.error('Invalid User', 'Error', {
                         closeButton: true
@@ -23,6 +27,16 @@ angular.module('meannote')
                     $rootScope.currentUser = $scope.username;
                     $cookies.remove('userSignup');
                     $location.path('/home');
+                }
+            });
+        }
+
+        $scope.FBLogin = function() {
+            FB.login(function(response) {
+                if(response.authResponse) {
+                    $location.path('/home');
+                }else{
+                    $location.path('/')
                 }
             });
         }

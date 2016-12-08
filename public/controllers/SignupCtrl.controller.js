@@ -2,6 +2,10 @@ angular.module('meannote')
 
     .controller('SignupCtrl', ['$scope', '$http', '$location', '$cookies', function ($scope, $http, $location, $cookies) {
 
+        if($cookies.get('token') || $cookies.get('currentUser')){
+            $location.path('/home');
+        }
+
         $scope.signup = function () {
             var newUser = {
                 username: $scope.username,
