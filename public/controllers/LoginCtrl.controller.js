@@ -35,22 +35,33 @@ angular.module('meannote')
             FB.login(function(response) {
                 if (response.authResponse) {
                     FB.api('/me', function(response) {
-                        var accessToken = FB.getAuthResponse().accessToken;
                         var user = response.name;
 
-                        var newUser = {
-                            username: user,
-                            password: '123456'
-                        };
+                        $http.get('/api/users/check/' + user).success(function(data) {
+                            if (data = 'match') {
+                                $http.post('/api/users/login', { username: user, password: '123456' }).success(function(data) {
+                                    $cookies.put('token', data.token);
+                                    $cookies.put('currentUser', user);
+                                    $rootScope.token = data.token;
+                                    $rootScope.currentUser = user;
+                                    $location.path('/home');
+                                });
+                            } else {
+                                var newUser = {
+                                    username: user,
+                                    password: '123456'
+                                };
 
-                        $http.post('/api/users/register', newUser).success(function(data) {
-                            $http.post('/api/users/login', { username: user, password: '123456' }).success(function(data) {
-                                $cookies.put('token', data.token);
-                                $cookies.put('currentUser', user);
-                                $rootScope.token = data.token;
-                                $rootScope.currentUser = user;
-                                $location.path('/home');
-                            });
+                                $http.post('/api/users/register', newUser).success(function(data) {
+                                    $http.post('/api/users/login', { username: user, password: '123456' }).success(function(data) {
+                                        $cookies.put('token', data.token);
+                                        $cookies.put('currentUser', user);
+                                        $rootScope.token = data.token;
+                                        $rootScope.currentUser = user;
+                                        $location.path('/home');
+                                    });
+                                });
+                            }
                         });
                     });
                 } else {
