@@ -2,5 +2,5 @@ body{background: #e1e1e1}
 .navbar-inverse{border-radius: 0px}
 div.login{margin-top: 100px}
 div.main-left{background-color: #fff;padding-bottom: 20px;}
-div.main-right ul li{background-color: #fff}
-.note-item{padding: 10px 10px 20px 15px;margin-bottom: 10px;}
+div.main-right ul li{background-color: #fff;height: auto;}
+.note-item{padding: 10px 10px 20px 15px;margin-bottom: 10px;height: auto}

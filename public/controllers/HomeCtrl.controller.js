@@ -1,6 +1,6 @@
 angular.module('meannote')
 
-    .controller('HomeCtrl', ['$scope', '$http', '$location', '$rootScope', '$cookies', 'toastr', function ($scope, $http, $location, $rootScope, $cookies, toastr) {
+    .controller('HomeCtrl', ['$scope', '$http', '$location', '$rootScope', '$cookies', 'toastr', function($scope, $http, $location, $rootScope, $cookies, toastr) {
 
         if (!$rootScope.currentUser || !$rootScope.token) {
             $location.path('/');
@@ -8,29 +8,34 @@ angular.module('meannote')
 
         function getNote() {
             $http.get('/api/notes',
-                {headers: {
+                {
+                    headers: {
                         'author': $rootScope.token
                     }
-                }).success(function (data) {
+                }).success(function(data) {
                     $scope.notes = data;
                 });
         }
 
-        $scope.addNote = function () {
+        $scope.addNote = function() {
             $http.post('/api/notes/add',
                 { text: $scope.newNote },
-                {headers: {
+                {
+                    headers: {
                         'author': $rootScope.token
                     }
-                }).success(function (data) {
+                }).success(function(data) {
+                    toastr.success('Note added.', 'Success', {
+                        closeButton: true
+                    });
                     getNote();
                     $scope.newNote = '';
                 });
         }
 
-        $scope.removeNote = function (note) {
+        $scope.removeNote = function(note) {
             if (confirm("Are you sure want to delete this note ?")) {
-                $http.post('/api/notes/remove', { note: note }).success(function (data) {
+                $http.post('/api/notes/remove', { note: note }).success(function(data) {
                     toastr.success('Note deleted.', 'Success', {
                         closeButton: true
                     });
@@ -39,9 +44,23 @@ angular.module('meannote')
             }
         }
 
+        $scope.saveNote = function(note) {
+            var id = note._id;
+            var text = document.getElementById(id).value;
+            $http.post('/api/notes/edit/' + note._id, { text: text }).success(function(data) {
+                if (data === 'ok') {
+                    $scope.editMode = false;
+                    toastr.success('Note updated.', 'Success', {
+                        closeButton: true
+                    });
+                    getNote();
+                }
+            });
+        }
+
         getNote();
 
-        $scope.logout = function () {
+        $scope.logout = function() {
             $cookies.remove('token');
             $cookies.remove('currentUser');
             $rootScope.token = null;

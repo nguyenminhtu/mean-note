@@ -33,10 +33,22 @@
             <div class="col-sm-8 col-md-8 main-right">
                 <ul class="list-unstyled list-group">
                     <li class="list-group-item note-item" ng-repeat="note in notes | orderBy:'-date'" ng-show="notes.length > 0">
-                        <span class="lead">{{ note.text }}</span>
+                        <span class="lead" ng-hide="editMode === true">{{ note.text }}</span>
+
+                        <input type="text" ng-model="note.text" id="{{note._id}}" ng-show="editMode === true">
+
                         <br>
-                        <small><i>Posted in {{ note.date | date:'hh:mm:ss dd/MM/yyyy' }}</i></small>
-                        <span class="pull-right"><button class="btn btn-danger" ng-click="removeNote(note)">x</button></span>
+
+                        <small ng-hide="editMode === true"><i>Posted in {{ note.date | date:'hh:mm:ss dd/MM/yyyy' }}</i></small>
+                        
+                        <span ng-hide="editMode === true" class="pull-right"><button class="btn btn-danger" ng-click="removeNote(note)">x</button></span>
+                        <span class="pull-right">&nbsp;</span>
+                        <span ng-hide="editMode === true" class="pull-right"><button class="btn btn-warning" ng-click="editMode = true"><i class="glyphicon glyphicon-edit"></i></button></span>
+
+                        <span ng-show="editMode === true" class="pull-right"><button class="btn btn-default" ng-click="editMode = false">Cancel</button></span>
+                        <span ng-show="editMode === true" class="pull-right"><button class="btn btn-success" ng-click="saveNote(note)"><i class="glyphicon glyphicon-ok"></i>&nbsp;Save Changes</button></span>
+                        <span class="pull-right" ng-show="editMode === true">&nbsp;</span>
+                        <div class="clearfix"></div>
                     </li>
                     <li ng-hide="notes.length > 0" style="padding: 10px 0px">
                         <h3 class="text-center">You have no note here. Let's note anything you want !</h3>
