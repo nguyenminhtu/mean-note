@@ -1,0 +1,32 @@
+<div class="container" ng-controller="LoginCtrl">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 login">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="text-center">Login to website</h2>
+                </div>
+                <div class="panel-body">
+                    <form ng-submit="login()" role="form" novalidate name="loginForm">
+                        <div class="form-group">
+                            <label for="">Username</label>
+                            <input type="text" class="form-control" ng-model="username" placeholder="Username..." ng-required="true" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Password</label>
+                            <input type="password" class="form-control" ng-model="password" placeholder="Password..." ng-required="true">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary btn-block" ng-disabled="loginForm.$invalid">Login</button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <p class="text-center">Don't have an account ?  <a href="#/signup">Sign up now</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

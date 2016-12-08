@@ -1,0 +1,25 @@
+{
+  "name": "mynote",
+  "description": "Simple Mean Application",
+  "main": "app.js",
+  "authors": [
+    "Nguyen Tu <tuunguyen2795@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.9",
+    "angular-route": "^1.5.9",
+    "angular-cookies": "^1.5.9",
+    "angular-toastr": "^2.1.1",
+    "bootstrap": "^3.3.7"
+  }
+}
